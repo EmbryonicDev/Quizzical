@@ -78,3 +78,33 @@ code {
 #startQuiz--btn:active {
   box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
 }
+
+#trivia {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: solid #DBDEF0 0.79px;
+}
+
+.trivia--question {
+  font-size: 16px;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.trivia--answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  justify-items: center;
+  padding-bottom: 15px;
+}
+
+.answerBtn {
+  height: 20.6px;
+  border: solid #4D5B9E;
+  border-radius: 7.71045px;
+  color: #293264;
+  font-size: 10.25px;
+}
