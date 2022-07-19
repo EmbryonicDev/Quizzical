@@ -5,7 +5,6 @@ import blob2 from './Assets/blobs.png';
 import { useEffect, useState } from "react";
 import uniqid from 'uniqid';
 
-
 function App() {
   const [firstGame, setFirstGame] = useState(true);
   const [triviaData, setTriviaData] = useState([]);
@@ -22,13 +21,19 @@ function App() {
   }, [firstGame])
 
   const triviaElements = triviaData.map(data => {
+    // atob() decodes a Base64-encoded string
     const answers = data.incorrect_answers;
     answers.push(data.correct_answer);
+    const decodedAnswers = [];
+    answers.forEach(element => {
+      decodedAnswers.push(atob(element))
+    });
+
     return (
       <Trivia
         key={uniqid()}
-        question={data.question}
-        answers={answers}
+        question={atob(data.question)}
+        answers={decodedAnswers}
       />)
   })
 
