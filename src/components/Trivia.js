@@ -10,7 +10,6 @@ export default function Trivia(props) {
         <button className='answerBtn'>{props.answers[2]}</button>
         <button className='answerBtn'>{props.answers[3]}</button>
       </div>
-      <hr></hr>
     </div>
   )
 }
