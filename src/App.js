@@ -7,6 +7,10 @@ import { useState } from "react";
 function App() {
   const [firstGame, setFirstGame] = useState(true);
 
+  function startFirstGame() {
+    setFirstGame(prevState => !prevState)
+  }
+
   return (
     <div className="App">
       <img className="blob1" src={blob1} alt=""></img>
