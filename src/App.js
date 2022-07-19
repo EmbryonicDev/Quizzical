@@ -15,9 +15,10 @@ function App() {
   console.log(triviaData)
 
   useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=5&category=9&type=multiple&encode=base64")
-      .then(res => res.json())
-      .then(data => setTriviaData(data.results))
+    !firstGame &&
+      fetch("https://opentdb.com/api.php?amount=5&category=9&type=multiple&encode=base64")
+        .then(res => res.json())
+        .then(data => setTriviaData(data.results))
   }, [firstGame])
 
   const triviaElements = triviaData.map(data => {
