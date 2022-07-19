@@ -14,7 +14,9 @@ function App() {
   return (
     <div className="App">
       <img className="blob1" src={blob1} alt=""></img>
-      <StartQuiz />
+      {firstGame &&
+        <StartQuiz startFirstGame={startFirstGame} />
+      }
       <img className="blob2" src={blob2} alt=""></img>
     </div>
   );
