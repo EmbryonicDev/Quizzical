@@ -11,8 +11,8 @@ function App() {
 
   function startFirstGame() {
     setFirstGame(prevState => !prevState)
-    console.log(triviaData)
   }
+  console.log(triviaData)
 
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&category=9&type=multiple&encode=base64")
