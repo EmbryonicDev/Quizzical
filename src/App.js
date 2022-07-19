@@ -21,12 +21,16 @@ function App() {
       .then(data => setTriviaData(data.results))
   }, [firstGame])
 
-  const triviaElements = triviaData.map(data =>
-    <Trivia
-      key={uniqid()}
-      question={data.question}
-    />
-  )
+  const triviaElements = triviaData.map(data => {
+    const answers = data.incorrect_answers;
+    answers.push(data.correct_answer);
+    return (
+      <Trivia
+        key={uniqid()}
+        question={data.question}
+        answers={answers}
+      />)
+  })
 
   return (
     <div className="App">
