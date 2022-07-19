@@ -3,6 +3,7 @@ import Trivia from "./components/Trivia";
 import blob1 from './Assets/blob5.png';
 import blob2 from './Assets/blobs.png';
 import { useEffect, useState } from "react";
+import uniqid from 'uniqid';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
 
   const triviaElements = triviaData.map(data =>
     <Trivia
+      key={uniqid()}
       question={data.question}
     />
   )
