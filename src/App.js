@@ -16,7 +16,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=5&category=9&type=multiple")
+    fetch("https://opentdb.com/api.php?amount=5&category=9&type=multiple&encode=base64")
       .then(res => res.json())
       .then(data => setTriviaData(data.results))
   }, [firstGame])
