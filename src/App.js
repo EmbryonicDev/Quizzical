@@ -22,19 +22,19 @@ function App() {
   }, [firstGame])
 
   const triviaElements = triviaData.map(data => {
-    // atob() decodes a Base64-encoded string
     const answers = data.incorrect_answers;
     answers.push(data.correct_answer);
-    const decodedAnswers = [];
-    answers.forEach(element => {
-      decodedAnswers.push(atob(element))
-    });
+
+    // atob() decodes a Base64-encoded string
+    const allAnswers = answers.map(answer => atob(answer))
+
+    console.log(allAnswers)
 
     return (
       <Trivia
         key={uniqid()}
         question={atob(data.question)}
-        answers={decodedAnswers}
+        answers={allAnswers}
       />)
   })
 
