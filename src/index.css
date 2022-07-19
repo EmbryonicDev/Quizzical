@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +9,72 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  width: 100vw;
+  background-color: #F5F7FB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.blob1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.blob2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#startQuiz {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 360px;
+}
+
+#startQuiz--title {
+  margin: 0;
+}
+
+#startQuiz--description {
+  text-align: center;
+}
+
+#startQuiz--btn {
+  width: 193px;
+  height: 52px;
+  border-radius: 15px;
+  border: none;
+  background-color: #4D5B9E;
+  color: #F5F7FB;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#startQuiz--btn:hover {
+  cursor: pointer;
+}
+
+#startQuiz--btn:active {
+  box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
 }
