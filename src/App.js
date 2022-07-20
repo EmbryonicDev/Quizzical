@@ -12,29 +12,32 @@ function App() {
   function startFirstGame() {
     setFirstGame(prevState => !prevState)
   }
-  console.log(triviaData)
 
   useEffect(() => {
     !firstGame &&
       fetch("https://opentdb.com/api.php?amount=5&category=9&type=multiple&encode=base64")
         .then(res => res.json())
-        .then(data => setTriviaData(data.results))
+        .then(data => setTriviaData(data.results));
   }, [firstGame])
 
+  function shuffleAnswers(wrongAnswers, correctAnswer) {
+    const randomNum = Math.floor(Math.random() * 4);
+    const allAnswers = [...wrongAnswers];
+    allAnswers.splice(randomNum, 0, correctAnswer);
+    return allAnswers;
+  }
+
   const triviaElements = triviaData.map(data => {
-    const answers = data.incorrect_answers;
-    answers.push(data.correct_answer);
-
-    // atob() decodes a Base64-encoded string
-    const allAnswers = answers.map(answer => atob(answer))
-
-    console.log(allAnswers)
+    // Use atob() to decode base64 text
+    const wrongAnswers = data.incorrect_answers.map(answer => atob(answer));
+    const allAnswers = shuffleAnswers(wrongAnswers, atob(data.correct_answer))
 
     return (
       <Trivia
         key={uniqid()}
         question={atob(data.question)}
-        answers={allAnswers}
+        allAnswers={allAnswers}
+        correctAnswer={atob(data.correct_answer)}
       />)
   })
 
