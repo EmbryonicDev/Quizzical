@@ -57,51 +57,40 @@ function App() {
     return allAnswers;
   }
 
-  function selectAnswer(id, masterId) {
-    deSelectAnswers(id, masterId)
+  function handleSelection(id, masterId) {
+    // Unselect all answers first to avoid multiple answer selections
+    selectAnswer(id, masterId, false);
+    // Select answer
+    selectAnswer(id, masterId, true);
 
-    setTriviaData(prevState => prevState.map(triviaObj => {
-      let newChoices;
+    function selectAnswer(id, masterId, onOrOff) {
+      let conditionToTest
 
-      if (triviaObj.id === masterId) {
-        newChoices = triviaObj.choices.map(choice => {
-          return (
-            choice.id === id ?
-              { ...choice, isSelected: !choice.isSelected } :
-              choice
-          )
-        })
-      }
+      setTriviaData(prevState => prevState.map(triviaObj => {
+        let newChoices;
 
-      return (
-        triviaObj.id === masterId ?
-          { ...triviaObj, choices: newChoices } :
-          triviaObj
-      )
-    }))
-  }
+        if (triviaObj.id === masterId) {
+          newChoices = triviaObj.choices.map(choice => {
 
-  // This allows only one answer to be selected per question
-  function deSelectAnswers(id, masterId) {
-    setTriviaData(prevState => prevState.map(triviaObj => {
-      let newChoices;
+            onOrOff ?
+              conditionToTest = choice.id === id :
+              conditionToTest = choice.id !== id && choice.isSelected
 
-      if (triviaObj.id === masterId) {
-        newChoices = triviaObj.choices.map(choice => {
-          return (
-            choice.id !== id && choice.isSelected ?
-              { ...choice, isSelected: false } :
-              choice
-          )
-        })
-      }
+            return (
+              conditionToTest ?
+                { ...choice, isSelected: !choice.isSelected } :
+                choice
+            )
+          })
+        }
 
-      return (
-        triviaObj.id === masterId ?
-          { ...triviaObj, choices: newChoices } :
-          triviaObj
-      )
-    }))
+        return (
+          triviaObj.id === masterId ?
+            { ...triviaObj, choices: newChoices } :
+            triviaObj
+        )
+      }))
+    }
   }
 
   const triviaElements = triviaData.map(data => {
@@ -111,7 +100,7 @@ function App() {
       <button
         className='answerBtn'
         key={uniqid()}
-        onClick={() => selectAnswer(choice.id, choice.masterId)}
+        onClick={() => handleSelection(choice.id, choice.masterId)}
         style={{ background: choice.isSelected ? '#D6DBF5' : '#FFFFFF' }}
       >
         {atob(choice.value)}
