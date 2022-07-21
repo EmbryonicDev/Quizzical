@@ -22,8 +22,9 @@ function App() {
 
   function getTriviaData(data) {
     return data.map(data => {
+      const allChoices = shuffleAnswers(data.incorrect_answers, data.correct_answer);
       return {
-        choices: shuffleAnswers(data.incorrect_answers, data.correct_answer),
+        choices: choicesToObj(allChoices),
         answer: data.correct_answer,
         id: uniqid(),
         isCorrect: false,
@@ -31,6 +32,18 @@ function App() {
         question: data.question,
       }
     })
+  }
+
+  function choicesToObj(choices) {
+    const newChoices = [];
+    for (let i = 0; i < 4; i++) {
+      newChoices.push({
+        value: choices[i],
+        isSelected: false,
+        id: uniqid(),
+      })
+    }
+    return newChoices
   }
 
   console.log(triviaData)
