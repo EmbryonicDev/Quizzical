@@ -22,11 +22,12 @@ function App() {
 
   function getTriviaData(data) {
     return data.map(data => {
+      const id = uniqid();
       const allChoices = shuffleAnswers(data.incorrect_answers, data.correct_answer);
       return {
-        choices: choicesToObj(allChoices),
+        choices: choicesToObj(allChoices, id),
         answer: data.correct_answer,
-        id: uniqid(),
+        id: id,
         isCorrect: false,
         selectedAnswer: null,
         question: data.question,
@@ -34,13 +35,14 @@ function App() {
     })
   }
 
-  function choicesToObj(choices) {
+  function choicesToObj(choices, masterId) {
     const newChoices = [];
     for (let i = 0; i < 4; i++) {
       newChoices.push({
         value: choices[i],
         isSelected: false,
         id: uniqid(),
+        masterId: masterId
       })
     }
     return newChoices
@@ -61,7 +63,7 @@ function App() {
     const choicesElmts = data.choices.map(choice =>
       <button
         className='answerBtn'
-        key={choice.id}
+        key={uniqid()}
         style={{ background: choice.isSelected ? '#D6DBF5' : '#FFFFFF' }}
       >
         {atob(choice.value)}
@@ -70,7 +72,7 @@ function App() {
 
     return (
       <Trivia
-        key={data.id}
+        key={uniqid()}
         question={atob(data.question)}
         choices={choicesElmts}
         correctAnswer={atob(data.answer)}
