@@ -17,8 +17,23 @@ function App() {
     !firstGame &&
       fetch("https://opentdb.com/api.php?amount=5&type=multiple&encode=base64")
         .then(res => res.json())
-        .then(data => setTriviaData(data.results));
+        .then(data => setTriviaData(getTriviaData(data.results)));
   }, [firstGame])
+
+  function getTriviaData(data) {
+    return data.map(data => {
+      return {
+        choices: shuffleAnswers(data.incorrect_answers, data.correct_answer),
+        answer: data.correct_answer,
+        id: uniqid(),
+        isCorrect: false,
+        selectedAnswer: null,
+        question: data.question,
+      }
+    })
+  }
+
+  console.log(triviaData)
 
   function shuffleAnswers(wrongAnswers, correctAnswer) {
     const randomNum = Math.floor(Math.random() * 4);
