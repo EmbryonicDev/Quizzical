@@ -95,7 +95,6 @@ function App() {
 
   const triviaElements = triviaData.map(data => {
     // Use atob() to decode base64 text
-
     const choicesElmts = data.choices.map(choice =>
       <button
         className='answerBtn'
