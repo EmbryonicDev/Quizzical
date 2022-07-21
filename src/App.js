@@ -58,6 +58,8 @@ function App() {
   }
 
   function selectAnswer(id, masterId) {
+    deSelectAnswers(id, masterId)
+
     setTriviaData(prevState => prevState.map(triviaObj => {
       let newChoices;
 
@@ -66,6 +68,29 @@ function App() {
           return (
             choice.id === id ?
               { ...choice, isSelected: !choice.isSelected } :
+              choice
+          )
+        })
+      }
+
+      return (
+        triviaObj.id === masterId ?
+          { ...triviaObj, choices: newChoices } :
+          triviaObj
+      )
+    }))
+  }
+
+  // This allows only one answer to be selected per question
+  function deSelectAnswers(id, masterId) {
+    setTriviaData(prevState => prevState.map(triviaObj => {
+      let newChoices;
+
+      if (triviaObj.id === masterId) {
+        newChoices = triviaObj.choices.map(choice => {
+          return (
+            choice.id !== id && choice.isSelected ?
+              { ...choice, isSelected: false } :
               choice
           )
         })
