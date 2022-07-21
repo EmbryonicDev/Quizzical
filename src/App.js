@@ -57,15 +57,23 @@ function App() {
 
   const triviaElements = triviaData.map(data => {
     // Use atob() to decode base64 text
-    const wrongAnswers = data.incorrect_answers.map(answer => atob(answer));
-    const allAnswers = shuffleAnswers(wrongAnswers, atob(data.correct_answer))
+
+    const choicesElmts = data.choices.map(choice =>
+      <button
+        className='answerBtn'
+        key={choice.id}
+        style={{ background: choice.isSelected ? '#D6DBF5' : '#FFFFFF' }}
+      >
+        {atob(choice.value)}
+      </button>
+    )
 
     return (
       <Trivia
-        key={uniqid()}
+        key={data.id}
         question={atob(data.question)}
-        allAnswers={allAnswers}
-        correctAnswer={atob(data.correct_answer)}
+        choices={choicesElmts}
+        correctAnswer={atob(data.answer)}
       />)
   })
 
@@ -73,10 +81,12 @@ function App() {
     <div className="App">
       <img className="blob1" src={blob1} alt=""></img>
       <img className="blob2" src={blob2} alt=""></img>
-      {firstGame &&
+      {
+        firstGame &&
         <StartQuiz startFirstGame={startFirstGame} />
       }
-      {!firstGame &&
+      {
+        !firstGame &&
         triviaElements
       }
       {
