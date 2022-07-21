@@ -59,25 +59,6 @@ code {
   text-align: center;
 }
 
-#startQuiz--btn {
-  width: 193px;
-  height: 52px;
-  border-radius: 15px;
-  border: none;
-  background-color: #4D5B9E;
-  color: #F5F7FB;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-#startQuiz--btn:hover {
-  cursor: pointer;
-}
-
-#startQuiz--btn:active {
-  box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
-}
-
 #trivia {
   width: 400px;
   display: flex;
@@ -100,6 +81,9 @@ code {
   padding-bottom: 15px;
 }
 
+
+/* Buttons */
+
 .answerBtn {
   height: 20.6px;
   border: solid #4D5B9E;
@@ -107,3 +91,37 @@ code {
   color: #293264;
   font-size: 10.25px;
 }
+
+.answerBtn:hover {
+  cursor: pointer;
+}
+
+.button {
+  width: 193px;
+  height: 52px;
+  border-radius: 15px;
+  border: none;
+  background-color: #4D5B9E;
+  color: #F5F7FB;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#App--checkBtn {
+  font-size: 10.24px;
+  height: 30px;
+  width: 120px;
+  margin: 16px;
+}
+
+#startQuiz--btn:hover,
+#App--checkBtn:hover {
+  cursor: pointer;
+}
+
+#startQuiz--btn:active,
+#App--checkBtn:active {
+  box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7);
+}
+
+/* ------------ */
