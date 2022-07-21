@@ -9,6 +9,7 @@ export default function StartQuiz(props) {
       </p>
       <button
         id='startQuiz--btn'
+        className='button'
         onClick={props.startFirstGame}
       >Start Quiz</button>
     </div>
