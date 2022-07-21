@@ -51,6 +51,15 @@ function App() {
       {!firstGame &&
         triviaElements
       }
+      {
+        !firstGame &&
+        <button
+          id='App--checkBtn'
+          className='button'
+        >
+          Check Answers
+        </button>
+      }
     </div>
   );
 }
