@@ -17,8 +17,38 @@ function App() {
     !firstGame &&
       fetch("https://opentdb.com/api.php?amount=5&type=multiple&encode=base64")
         .then(res => res.json())
-        .then(data => setTriviaData(data.results));
+        .then(data => setTriviaData(getTriviaData(data.results)));
   }, [firstGame])
+
+  function getTriviaData(data) {
+    return data.map(data => {
+      const id = uniqid();
+      const allChoices = shuffleAnswers(data.incorrect_answers, data.correct_answer);
+      return {
+        choices: choicesToObj(allChoices, id),
+        answer: data.correct_answer,
+        id: id,
+        isCorrect: false,
+        selectedAnswer: null,
+        question: data.question,
+      }
+    })
+  }
+
+  function choicesToObj(choices, masterId) {
+    const newChoices = [];
+    for (let i = 0; i < 4; i++) {
+      newChoices.push({
+        value: choices[i],
+        isSelected: false,
+        id: uniqid(),
+        masterId: masterId
+      })
+    }
+    return newChoices
+  }
+
+  console.log(triviaData)
 
   function shuffleAnswers(wrongAnswers, correctAnswer) {
     const randomNum = Math.floor(Math.random() * 4);
@@ -27,17 +57,62 @@ function App() {
     return allAnswers;
   }
 
+  function handleSelection(id, masterId) {
+    // Unselect all answers first to avoid multiple answer selections
+    selectAnswer(id, masterId, false);
+    // Select answer
+    selectAnswer(id, masterId, true);
+
+    function selectAnswer(id, masterId, onOrOff) {
+      let conditionToTest
+
+      setTriviaData(prevState => prevState.map(triviaObj => {
+        let newChoices;
+
+        if (triviaObj.id === masterId) {
+          newChoices = triviaObj.choices.map(choice => {
+
+            onOrOff ?
+              conditionToTest = choice.id === id :
+              conditionToTest = choice.id !== id && choice.isSelected
+
+            return (
+              conditionToTest ?
+                { ...choice, isSelected: !choice.isSelected } :
+                choice
+            )
+          })
+        }
+
+        return (
+          triviaObj.id === masterId ?
+            { ...triviaObj, choices: newChoices } :
+            triviaObj
+        )
+      }))
+    }
+  }
+
   const triviaElements = triviaData.map(data => {
     // Use atob() to decode base64 text
-    const wrongAnswers = data.incorrect_answers.map(answer => atob(answer));
-    const allAnswers = shuffleAnswers(wrongAnswers, atob(data.correct_answer))
+
+    const choicesElmts = data.choices.map(choice =>
+      <button
+        className='answerBtn'
+        key={uniqid()}
+        onClick={() => handleSelection(choice.id, choice.masterId)}
+        style={{ background: choice.isSelected ? '#D6DBF5' : '#FFFFFF' }}
+      >
+        {atob(choice.value)}
+      </button>
+    )
 
     return (
       <Trivia
         key={uniqid()}
         question={atob(data.question)}
-        allAnswers={allAnswers}
-        correctAnswer={atob(data.correct_answer)}
+        choices={choicesElmts}
+        correctAnswer={atob(data.answer)}
       />)
   })
 
@@ -45,10 +120,12 @@ function App() {
     <div className="App">
       <img className="blob1" src={blob1} alt=""></img>
       <img className="blob2" src={blob2} alt=""></img>
-      {firstGame &&
+      {
+        firstGame &&
         <StartQuiz startFirstGame={startFirstGame} />
       }
-      {!firstGame &&
+      {
+        !firstGame &&
         triviaElements
       }
       {
