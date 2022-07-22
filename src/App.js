@@ -8,6 +8,7 @@ import uniqid from 'uniqid';
 function App() {
   const [firstGame, setFirstGame] = useState(true);
   const [triviaData, setTriviaData] = useState([]);
+  const [checkAnswers, setCheckAnswers] = useState(false);
 
   function startFirstGame() {
     setFirstGame(prevState => !prevState)
