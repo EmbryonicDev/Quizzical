@@ -61,38 +61,40 @@ function App() {
   }
 
   function handleSelection(id, masterId) {
-    // Unselect all answers first to avoid multiple answer selections
-    selectAnswer(id, masterId, false);
-    // Select answer
-    selectAnswer(id, masterId, true);
+    if (!checkAnswers) {
+      // Unselect all answers first to avoid multiple answer selections
+      selectAnswer(id, masterId, false);
+      // Select answer
+      selectAnswer(id, masterId, true);
 
-    function selectAnswer(id, masterId, onOrOff) {
-      let conditionToTest
+      function selectAnswer(id, masterId, onOrOff) {
+        let conditionToTest
 
-      setTriviaData(prevState => prevState.map(triviaObj => {
-        let newChoices;
+        setTriviaData(prevState => prevState.map(triviaObj => {
+          let newChoices;
 
-        if (triviaObj.id === masterId) {
-          newChoices = triviaObj.choices.map(choice => {
+          if (triviaObj.id === masterId) {
+            newChoices = triviaObj.choices.map(choice => {
 
-            onOrOff ?
-              conditionToTest = choice.id === id :
-              conditionToTest = choice.id !== id && choice.isSelected
+              onOrOff ?
+                conditionToTest = choice.id === id :
+                conditionToTest = choice.id !== id && choice.isSelected
 
-            return (
-              conditionToTest ?
-                { ...choice, isSelected: !choice.isSelected } :
-                choice
-            )
-          })
-        }
+              return (
+                conditionToTest ?
+                  { ...choice, isSelected: !choice.isSelected } :
+                  choice
+              )
+            })
+          }
 
-        return (
-          triviaObj.id === masterId ?
-            { ...triviaObj, choices: newChoices } :
-            triviaObj
-        )
-      }))
+          return (
+            triviaObj.id === masterId ?
+              { ...triviaObj, choices: newChoices } :
+              triviaObj
+          )
+        }))
+      }
     }
   }
 
@@ -115,46 +117,15 @@ function App() {
   }
 
   const triviaElements = triviaData.map(data => {
-    const choicesElmts = data.choices.map(choice => {
-
-      let style;
-      let opacity = 1;
-      if (checkAnswers) {
-        opacity = 0.5;
-      }
-      if ((checkAnswers && choice.isAnswer) ||
-        (checkAnswers && choice.isAnswer && choice.isSelected)) {
-        style = '#94D7A2';
-        opacity = 1;
-      } else if (checkAnswers && choice.isSelected) {
-        style = '#F8BCBC';
-      } else if (choice.isSelected) {
-        style = '#D6DBF5';
-      }
-
-      function activeListeners() {
-        !checkAnswers && handleSelection(choice.id, choice.masterId)
-      }
-
-      return (
-        <button
-          className='answerBtn'
-          key={uniqid()}
-          onClick={activeListeners}
-          style={{ background: style, color: '#293264', opacity: opacity }}
-        >
-          {atob(choice.value)}
-        </button>
-      )
-    })
-
     return (
       // Use atob() to decode base64 text
       <Trivia
         key={uniqid()}
         question={atob(data.question)}
-        choices={choicesElmts}
+        choices={data.choices}
         correctAnswer={atob(data.answer)}
+        checkAnswers={checkAnswers}
+        handleSelection={handleSelection}
       />)
   })
 
