@@ -98,7 +98,20 @@ function App() {
 
   function showAnswers() {
     console.log('checking answers')
-    setCheckAnswers(prevState => !prevState)
+    setCheckAnswers(prevState => !prevState);
+    getScore()
+  }
+
+  function getScore() {
+    triviaData.map(triviaObj => {
+      triviaObj.choices.map(choice => {
+        if (choice.isSelected && choice.isAnswer) {
+          setScore(prevState => prevState + 1)
+        }
+        return true
+      })
+      return true
+    })
   }
 
   const triviaElements = triviaData.map(data => {
@@ -159,7 +172,7 @@ function App() {
           <h4
             className="scoreText"
           >
-            {`You scored ${3}/${triviaData.length} correct answers`}
+            {`You scored ${score}/${triviaData.length} correct answers`}
           </h4>
         }
         {
