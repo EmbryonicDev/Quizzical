@@ -95,6 +95,11 @@ function App() {
     }
   }
 
+  function showAnswers() {
+    console.log('checking answers')
+    setCheckAnswers(prevState => !prevState)
+  }
+
   const triviaElements = triviaData.map(data => {
     const choicesElmts = data.choices.map(choice => {
 
@@ -151,6 +156,7 @@ function App() {
         <button
           id='App--checkBtn'
           className='button'
+          onClick={showAnswers}
         >
           Check Answers
         </button>
