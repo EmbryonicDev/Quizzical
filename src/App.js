@@ -9,6 +9,7 @@ function App() {
   const [firstGame, setFirstGame] = useState(true);
   const [triviaData, setTriviaData] = useState([]);
   const [checkAnswers, setCheckAnswers] = useState(false);
+  const [score, setScore] = useState(0);
 
   function startFirstGame() {
     setFirstGame(prevState => !prevState)
