@@ -122,12 +122,12 @@ function App() {
       if (checkAnswers) {
         opacity = 0.5;
       }
-      if (checkAnswers && choice.isSelected) {
-        style = '#F8BCBC';
-      } else if ((checkAnswers && choice.isAnswer) ||
+      if ((checkAnswers && choice.isAnswer) ||
         (checkAnswers && choice.isAnswer && choice.isSelected)) {
         style = '#94D7A2';
         opacity = 1;
+      } else if (checkAnswers && choice.isSelected) {
+        style = '#F8BCBC';
       } else if (choice.isSelected) {
         style = '#D6DBF5';
       }
