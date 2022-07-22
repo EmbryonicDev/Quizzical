@@ -176,7 +176,7 @@ function App() {
           </h4>
         }
         {
-          !firstGame &&
+          (!firstGame && triviaData.length > 0) &&
           <button
             id='App--checkBtn'
             className='button'
