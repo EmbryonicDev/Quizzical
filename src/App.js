@@ -26,7 +26,7 @@ function App() {
       const id = uniqid();
       const allChoices = shuffleAnswers(data.incorrect_answers, data.correct_answer);
       return {
-        choices: choicesToObj(allChoices, id),
+        choices: choicesToObj(allChoices, id, data.correct_answer),
         answer: data.correct_answer,
         id: id,
         isCorrect: false,
@@ -36,14 +36,15 @@ function App() {
     })
   }
 
-  function choicesToObj(choices, masterId) {
+  function choicesToObj(choices, masterId, correctAnswer) {
     const newChoices = [];
     for (let i = 0; i < 4; i++) {
       newChoices.push({
         value: choices[i],
         isSelected: false,
         id: uniqid(),
-        masterId: masterId
+        masterId: masterId,
+        isAnswer: choices[i] === correctAnswer ? true : false
       })
     }
     return newChoices
