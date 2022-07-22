@@ -152,16 +152,26 @@ function App() {
         !firstGame &&
         triviaElements
       }
-      {
-        !firstGame &&
-        <button
-          id='App--checkBtn'
-          className='button'
-          onClick={showAnswers}
-        >
-          Check Answers
-        </button>
-      }
+      <div id='checkOrNext'>
+        {
+          checkAnswers &&
+          <h4
+            className="scoreText"
+          >
+            {`You scored ${3}/${triviaData.length} correct answers`}
+          </h4>
+        }
+        {
+          !firstGame &&
+          <button
+            id='App--checkBtn'
+            className='button'
+            onClick={showAnswers}
+          >
+            {!checkAnswers ? "Check Answers" : "Play Again"}
+          </button>
+        }
+      </div>
     </div>
   );
 }
