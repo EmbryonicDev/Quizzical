@@ -96,19 +96,36 @@ function App() {
   }
 
   const triviaElements = triviaData.map(data => {
-    // Use atob() to decode base64 text
-    const choicesElmts = data.choices.map(choice =>
-      <button
-        className='answerBtn'
-        key={uniqid()}
-        onClick={() => handleSelection(choice.id, choice.masterId)}
-        style={{ background: choice.isSelected ? '#D6DBF5' : '#FFFFFF' }}
-      >
-        {atob(choice.value)}
-      </button>
-    )
+    const choicesElmts = data.choices.map(choice => {
+
+      let style;
+      let opacity = 1;
+      if (checkAnswers) {
+        opacity = 0.5;
+      }
+      if (checkAnswers && choice.isSelected) {
+        style = '#F8BCBC';
+      } else if (checkAnswers && choice.isAnswer) {
+        style = '#94D7A2';
+        opacity = 1;
+      } else if (choice.isSelected) {
+        style = '#D6DBF5';
+      }
+
+      return (
+        <button
+          className='answerBtn'
+          key={uniqid()}
+          onClick={() => handleSelection(choice.id, choice.masterId)}
+          style={{ background: style, color: '#293264', opacity: opacity }}
+        >
+          {atob(choice.value)}
+        </button>
+      )
+    })
 
     return (
+      // Use atob() to decode base64 text
       <Trivia
         key={uniqid()}
         question={atob(data.question)}
