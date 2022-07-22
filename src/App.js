@@ -110,7 +110,8 @@ function App() {
       }
       if (checkAnswers && choice.isSelected) {
         style = '#F8BCBC';
-      } else if (checkAnswers && choice.isAnswer) {
+      } else if ((checkAnswers && choice.isAnswer) ||
+        (checkAnswers && choice.isAnswer && choice.isSelected)) {
         style = '#94D7A2';
         opacity = 1;
       } else if (choice.isSelected) {
