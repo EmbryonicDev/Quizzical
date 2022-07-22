@@ -8,6 +8,8 @@ import uniqid from 'uniqid';
 function App() {
   const [firstGame, setFirstGame] = useState(true);
   const [triviaData, setTriviaData] = useState([]);
+  const [checkAnswers, setCheckAnswers] = useState(false);
+  const [score, setScore] = useState(0);
 
   function startFirstGame() {
     setFirstGame(prevState => !prevState)
@@ -25,7 +27,7 @@ function App() {
       const id = uniqid();
       const allChoices = shuffleAnswers(data.incorrect_answers, data.correct_answer);
       return {
-        choices: choicesToObj(allChoices, id),
+        choices: choicesToObj(allChoices, id, data.correct_answer),
         answer: data.correct_answer,
         id: id,
         isCorrect: false,
@@ -35,14 +37,15 @@ function App() {
     })
   }
 
-  function choicesToObj(choices, masterId) {
+  function choicesToObj(choices, masterId, correctAnswer) {
     const newChoices = [];
     for (let i = 0; i < 4; i++) {
       newChoices.push({
         value: choices[i],
         isSelected: false,
         id: uniqid(),
-        masterId: masterId
+        masterId: masterId,
+        isAnswer: choices[i] === correctAnswer ? true : false
       })
     }
     return newChoices
@@ -93,20 +96,56 @@ function App() {
     }
   }
 
+  function showAnswers() {
+    console.log('checking answers')
+    setCheckAnswers(prevState => !prevState);
+    getScore()
+  }
+
+  function getScore() {
+    triviaData.map(triviaObj => {
+      triviaObj.choices.map(choice => {
+        if (choice.isSelected && choice.isAnswer) {
+          setScore(prevState => prevState + 1)
+        }
+        return true
+      })
+      return true
+    })
+  }
+
   const triviaElements = triviaData.map(data => {
-    // Use atob() to decode base64 text
-    const choicesElmts = data.choices.map(choice =>
-      <button
-        className='answerBtn'
-        key={uniqid()}
-        onClick={() => handleSelection(choice.id, choice.masterId)}
-        style={{ background: choice.isSelected ? '#D6DBF5' : '#FFFFFF' }}
-      >
-        {atob(choice.value)}
-      </button>
-    )
+    const choicesElmts = data.choices.map(choice => {
+
+      let style;
+      let opacity = 1;
+      if (checkAnswers) {
+        opacity = 0.5;
+      }
+      if ((checkAnswers && choice.isAnswer) ||
+        (checkAnswers && choice.isAnswer && choice.isSelected)) {
+        style = '#94D7A2';
+        opacity = 1;
+      } else if (checkAnswers && choice.isSelected) {
+        style = '#F8BCBC';
+      } else if (choice.isSelected) {
+        style = '#D6DBF5';
+      }
+
+      return (
+        <button
+          className='answerBtn'
+          key={uniqid()}
+          onClick={() => handleSelection(choice.id, choice.masterId)}
+          style={{ background: style, color: '#293264', opacity: opacity }}
+        >
+          {atob(choice.value)}
+        </button>
+      )
+    })
 
     return (
+      // Use atob() to decode base64 text
       <Trivia
         key={uniqid()}
         question={atob(data.question)}
@@ -127,15 +166,26 @@ function App() {
         !firstGame &&
         triviaElements
       }
-      {
-        !firstGame &&
-        <button
-          id='App--checkBtn'
-          className='button'
-        >
-          Check Answers
-        </button>
-      }
+      <div id='checkOrNext'>
+        {
+          checkAnswers &&
+          <h4
+            className="scoreText"
+          >
+            {`You scored ${score}/${triviaData.length} correct answers`}
+          </h4>
+        }
+        {
+          !firstGame &&
+          <button
+            id='App--checkBtn'
+            className='button'
+            onClick={showAnswers}
+          >
+            {!checkAnswers ? "Check Answers" : "Play Again"}
+          </button>
+        }
+      </div>
     </div>
   );
 }
