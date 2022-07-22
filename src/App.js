@@ -132,11 +132,15 @@ function App() {
         style = '#D6DBF5';
       }
 
+      function activeListeners() {
+        !checkAnswers && handleSelection(choice.id, choice.masterId)
+      }
+
       return (
         <button
           className='answerBtn'
           key={uniqid()}
-          onClick={() => handleSelection(choice.id, choice.masterId)}
+          onClick={activeListeners}
           style={{ background: style, color: '#293264', opacity: opacity }}
         >
           {atob(choice.value)}
