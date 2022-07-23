@@ -10,6 +10,7 @@ function App() {
   const [triviaData, setTriviaData] = useState([]);
   const [checkAnswers, setCheckAnswers] = useState(false);
   const [score, setScore] = useState(0);
+  const [nextGame, setNextGame] = useState(0);
 
   function startFirstGame() {
     setFirstGame(prevState => !prevState)
@@ -20,7 +21,7 @@ function App() {
       fetch("https://opentdb.com/api.php?amount=5&type=multiple&encode=base64")
         .then(res => res.json())
         .then(data => setTriviaData(getTriviaData(data.results)));
-  }, [firstGame])
+  }, [firstGame, nextGame])
 
   function getTriviaData(data) {
     return data.map(data => {
@@ -100,7 +101,7 @@ function App() {
 
   function showAnswers() {
     console.log('checking answers')
-    setCheckAnswers(prevState => !prevState);
+    setCheckAnswers(true);
     getScore()
   }
 
@@ -129,6 +130,13 @@ function App() {
       />)
   })
 
+  function startNextGame() {
+    setCheckAnswers(false);
+    setScore(0)
+    setTriviaData([])
+    setNextGame(prevState => prevState + 1);
+  }
+
   return (
     <div className="App">
       <img className="blob1" src={blob1} alt=""></img>
@@ -155,7 +163,7 @@ function App() {
           <button
             id='App--checkBtn'
             className='button'
-            onClick={showAnswers}
+            onClick={!checkAnswers ? showAnswers : startNextGame}
           >
             {!checkAnswers ? "Check Answers" : "Play Again"}
           </button>
