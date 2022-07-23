@@ -151,7 +151,7 @@ function App() {
       }
       {
         (triviaData.length < 1 && !firstGame) &&
-        <img src={loadingGif} alt=""></img>
+        <img src={loadingGif} alt="" id="loadingGif"></img>
       }
       <CheckOrNext
         checkAnswers={checkAnswers}
