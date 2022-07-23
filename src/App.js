@@ -23,7 +23,6 @@ function App() {
       fetch("https://opentdb.com/api.php?amount=5&type=multiple&encode=base64")
         .then(res => res.json())
         .then(data => setTriviaData(getTriviaData(data.results)))
-        .then(console.log('done loading triviaData'));
   }, [firstGame, nextGame])
 
   function getTriviaData(data) {
