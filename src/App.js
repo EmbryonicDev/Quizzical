@@ -2,6 +2,7 @@ import StartQuiz from "./components/StartQuiz";
 import Trivia from "./components/Trivia";
 import blob1 from './Assets/blob5.png';
 import blob2 from './Assets/blobs.png';
+import loadingGif from './Assets/loading.gif';
 import { useEffect, useState } from "react";
 import uniqid from 'uniqid';
 import CheckOrNext from "./components/CheckOrNext";
@@ -21,7 +22,8 @@ function App() {
     !firstGame &&
       fetch("https://opentdb.com/api.php?amount=5&type=multiple&encode=base64")
         .then(res => res.json())
-        .then(data => setTriviaData(getTriviaData(data.results)));
+        .then(data => setTriviaData(getTriviaData(data.results)))
+        .then(console.log('done loading triviaData'));
   }, [firstGame, nextGame])
 
   function getTriviaData(data) {
@@ -146,6 +148,10 @@ function App() {
       {
         !firstGame &&
         triviaElements
+      }
+      {
+        (triviaData.length < 1 && !firstGame) &&
+        <img src={loadingGif} alt=""></img>
       }
       <CheckOrNext
         checkAnswers={checkAnswers}
