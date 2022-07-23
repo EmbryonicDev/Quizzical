@@ -52,8 +52,6 @@ function App() {
     return newChoices
   }
 
-  console.log(triviaData)
-
   function shuffleAnswers(wrongAnswers, correctAnswer) {
     const randomNum = Math.floor(Math.random() * 4);
     const allAnswers = [...wrongAnswers];
@@ -100,7 +98,6 @@ function App() {
   }
 
   function showAnswers() {
-    console.log('checking answers')
     setCheckAnswers(true);
     getScore()
   }
