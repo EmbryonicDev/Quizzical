@@ -23,6 +23,7 @@ function App() {
       fetch("https://opentdb.com/api.php?amount=5&type=multiple&encode=base64")
         .then(res => res.json())
         .then(data => setTriviaData(getTriviaData(data.results)))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstGame, nextGame])
 
   function getTriviaData(data) {
