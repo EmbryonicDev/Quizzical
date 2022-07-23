@@ -4,6 +4,7 @@ import blob1 from './Assets/blob5.png';
 import blob2 from './Assets/blobs.png';
 import { useEffect, useState } from "react";
 import uniqid from 'uniqid';
+import CheckOrNext from "./components/CheckOrNext";
 
 function App() {
   const [firstGame, setFirstGame] = useState(true);
@@ -146,26 +147,14 @@ function App() {
         !firstGame &&
         triviaElements
       }
-      <div id='checkOrNext'>
-        {
-          checkAnswers &&
-          <h4
-            className="scoreText"
-          >
-            {`You scored ${score}/${triviaData.length} correct answers`}
-          </h4>
-        }
-        {
-          (!firstGame && triviaData.length > 0) &&
-          <button
-            id='App--checkBtn'
-            className='button'
-            onClick={!checkAnswers ? showAnswers : startNextGame}
-          >
-            {!checkAnswers ? "Check Answers" : "Play Again"}
-          </button>
-        }
-      </div>
+      <CheckOrNext
+        checkAnswers={checkAnswers}
+        score={score}
+        triviaData={triviaData}
+        firstGame={firstGame}
+        showAnswers={showAnswers}
+        startNextGame={startNextGame}
+      />
     </div>
   );
 }
