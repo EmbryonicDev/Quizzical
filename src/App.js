@@ -34,8 +34,6 @@ function App() {
         choices: choicesToObj(allChoices, id, data.correct_answer),
         answer: data.correct_answer,
         id: id,
-        isCorrect: false,
-        selectedAnswer: null,
         question: data.question,
       }
     })
